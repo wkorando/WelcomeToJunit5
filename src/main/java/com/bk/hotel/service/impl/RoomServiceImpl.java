@@ -3,11 +3,14 @@ package com.bk.hotel.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.bk.hotel.RoomServiceException;
 import com.bk.hotel.model.Room;
 import com.bk.hotel.repo.RoomRepo;
 import com.bk.hotel.service.RoomService;
 
+@Service
 public class RoomServiceImpl implements RoomService {
 
 	private RoomRepo roomRepo;
@@ -35,12 +38,12 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	
-	public List<String> addRoom(Room room) {
+	protected Room addRoom(Room room) {
 		List<String> errorMessages = new ArrayList<>();
 		if(roomRepo.findByRoomNumber(room.getRoomNumber()) != null) {
 			errorMessages.add("Duplicated room number!");
 		}
-		return errorMessages;
+		return roomRepo.save(room);
 	}
 
 }

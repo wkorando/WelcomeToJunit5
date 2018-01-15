@@ -63,4 +63,36 @@ public class Room {
 		this.roomRate = roomRate;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((roomRate == null) ? 0 : roomRate.hashCode());
+		result = prime * result + ((roomType == null) ? 0 : roomType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		if (roomRate == null) {
+			if (other.roomRate != null)
+				return false;
+		} else if (!roomRate.equals(other.roomRate))
+			return false;
+		if (roomType == null) {
+			if (other.roomType != null)
+				return false;
+		} else if (!roomType.equals(other.roomType))
+			return false;
+		return true;
+	}
+	
+
 }

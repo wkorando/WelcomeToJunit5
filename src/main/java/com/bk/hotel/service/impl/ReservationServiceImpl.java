@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.bk.hotel.service.ReservationService;
 
+@Service
 public class ReservationServiceImpl implements ReservationService {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 

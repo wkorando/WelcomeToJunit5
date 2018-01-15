@@ -1,7 +1,6 @@
 package com.bk.hotel.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -29,8 +28,7 @@ public class RoomServiceImplTest {
 				new Room(1L, "100", "Single", new BigDecimal(145.99))));
 		List<Room> rooms = service.findRoomsByType("Single");
 
-		assertThat(rooms).extracting("id", "roomNumber", "roomType", "roomRate")
-				.containsExactly(tuple(1L, "100", "Single", new BigDecimal(145.99)));
+		assertEquals(1, rooms.size());
 	}
 
 	@Test(expected = RoomServiceException.class)
@@ -41,7 +39,7 @@ public class RoomServiceImplTest {
 		try {
 			service.findRoomsByType("NOT FOUND");
 		} catch (RoomServiceException e) {
-			assertThat(e.getMessage()).isEqualTo("Room type: NOT FOUND not found!");
+			assertEquals("Room type: NOT FOUND not found!", e.getMessage());
 			throw e;
 		}
 	}
@@ -54,9 +52,22 @@ public class RoomServiceImplTest {
 		try {
 			service.findRoomsByType(null);
 		} catch (RoomServiceException e) {
-			assertThat(e.getMessage()).isEqualTo("Room type: null not found!");
+			assertEquals("Room type: null not found!", e.getMessage());
 			throw e;
 		}
+	}
+
+	@Test
+	public void testAddRoom() {
+		RoomRepo repo = mock(RoomRepo.class);
+		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
+		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
+
+		Room newRoom = service.addRoom(new Room());
+		assertEquals(1L, newRoom.getId());
+		assertEquals("100", newRoom.getRoomNumber());
+		assertEquals("Single", newRoom.getRoomType());
+		assertEquals( new BigDecimal(149.99), newRoom.getRoomRate());
 	}
 
 }
