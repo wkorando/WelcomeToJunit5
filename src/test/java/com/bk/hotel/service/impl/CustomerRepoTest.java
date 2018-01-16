@@ -1,21 +1,24 @@
 package com.bk.hotel.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bk.hotel.model.Customer;
 import com.bk.hotel.repo.CustomerRepo;
 
-@SpringJUnitConfig
+@RunWith(SpringRunner.class)
 @DataJpaTest
+@DirtiesContext
 public class CustomerRepoTest {
 	@Autowired
 	private TestEntityManager entityManager;
@@ -34,13 +37,13 @@ public class CustomerRepoTest {
 		princess = new Customer.CustomerBuilder().firstName("Princess").middleName("Cat").lastName("Caroline").build();
 	}
 
-	@AfterEach
+	@After
 	public void cleanup() {
 		this.entityManager.clear();
 	}
 
 	@Test
-	public void testFindAllCustomers(@Autowired CustomerRepo repo) {
+	public void testFindAllCustomers() {
 		this.entityManager.persist(bojack);
 		Iterable<Customer> customers = repo.findAll();
 
@@ -76,4 +79,5 @@ public class CustomerRepoTest {
 		}
 		assertEquals(1, count);
 	}
+
 }

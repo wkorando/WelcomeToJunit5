@@ -10,7 +10,7 @@
 //
 //public class JUnit5ParameterizedTest {
 //
-//	@ParameterizedTest(name = "{0}")
+//	@ParameterizedTest
 //	@MethodSource("scenarios")
 //	public void verifyDateValidation(DateValidationBean dateValidation) {
 //		ReservationServiceImpl service = new ReservationServiceImpl();

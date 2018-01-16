@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.bk.hotel.RoomServiceException;
 import com.bk.hotel.model.Room;
@@ -19,6 +21,8 @@ import com.bk.hotel.repo.RoomRepo;
 
 public class RoomServiceImplTest {
 	private List<String> roomTypes = Arrays.asList("Single", "Double", "Suite");
+	@Rule
+	public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
 	public void testFindByValidRoomType() {
@@ -31,17 +35,14 @@ public class RoomServiceImplTest {
 		assertEquals(1, rooms.size());
 	}
 
-	@Test(expected = RoomServiceException.class)
+	@Test
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 		verify(repo, times(0)).findRoomsByRoomType(any());
-		try {
-			service.findRoomsByType("NOT FOUND");
-		} catch (RoomServiceException e) {
-			assertEquals("Room type: NOT FOUND not found!", e.getMessage());
-			throw e;
-		}
+		expectedException.expect(RoomServiceException.class);
+		expectedException.expectMessage("Room type: NOT FOUND not found!");
+		service.findRoomsByType("NOT FOUND");
 	}
 
 	@Test(expected = RoomServiceException.class)
@@ -67,7 +68,7 @@ public class RoomServiceImplTest {
 		assertEquals(1L, newRoom.getId());
 		assertEquals("100", newRoom.getRoomNumber());
 		assertEquals("Single", newRoom.getRoomType());
-		assertEquals( new BigDecimal(149.99), newRoom.getRoomRate());
+		assertEquals(new BigDecimal(149.99), newRoom.getRoomRate());
 	}
 
 }

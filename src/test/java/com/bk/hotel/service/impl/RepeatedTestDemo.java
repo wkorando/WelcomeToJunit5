@@ -9,9 +9,7 @@
 //import org.junit.jupiter.api.TestInfo;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
-//import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 //
-//@SpringJUnitConfig
 //class RepeatedTestDemo {
 //    private Logger logger = LoggerFactory.getLogger(RepeatedTestDemo.class);
 //
