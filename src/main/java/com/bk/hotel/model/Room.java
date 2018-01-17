@@ -67,6 +67,8 @@ public class Room {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((roomNumber == null) ? 0 : roomNumber.hashCode());
 		result = prime * result + ((roomRate == null) ? 0 : roomRate.hashCode());
 		result = prime * result + ((roomType == null) ? 0 : roomType.hashCode());
 		return result;
@@ -81,6 +83,13 @@ public class Room {
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
+		if (id != other.id)
+			return false;
+		if (roomNumber == null) {
+			if (other.roomNumber != null)
+				return false;
+		} else if (!roomNumber.equals(other.roomNumber))
+			return false;
 		if (roomRate == null) {
 			if (other.roomRate != null)
 				return false;
