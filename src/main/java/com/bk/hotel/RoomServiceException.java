@@ -1,8 +1,12 @@
 package com.bk.hotel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoomServiceException extends RuntimeException {
 
 	private static final long serialVersionUID = 4224097134365852621L;
+	private List<String> errorMessages = new ArrayList<>();
 
 	public RoomServiceException() {
 
@@ -27,6 +31,14 @@ public class RoomServiceException extends RuntimeException {
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 
+	}
+
+	public List<String> getErrorMessages() {
+		return errorMessages;
+	}
+
+	public void addErrorMessage(String errorMessage) {
+		errorMessages.add(errorMessage);
 	}
 
 }
