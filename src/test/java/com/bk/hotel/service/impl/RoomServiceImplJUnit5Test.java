@@ -3,8 +3,6 @@ package com.bk.hotel.service.impl;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -14,15 +12,9 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.junit.Rule;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 import org.junit.rules.ExpectedException;
@@ -37,7 +29,6 @@ public class RoomServiceImplJUnit5Test {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
-	@Test
 	@IntegrationTest
 	public void testFindByValidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
@@ -83,16 +74,7 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisplayName("Test awesome test name! 😁")
 	void testTestInfo(TestInfo testInfo) {
 		System.out.println(testInfo);
 	}
-	
-	@TestFactory
-	Stream<DynamicTest> dynamicTestsFromIntStream() {
-		// Generates tests for the first 10 even integers.
-		return IntStream.iterate(0, n -> n + 2).limit(10)
-				.mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
-	}
-
 }
