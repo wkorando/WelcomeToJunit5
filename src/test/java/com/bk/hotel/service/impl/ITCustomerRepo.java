@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.EnvironmentTestUtils;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,6 +20,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import com.bk.hotel.HotelApplication;
 import com.bk.hotel.model.Customer;
 import com.bk.hotel.repo.CustomerRepo;
+import com.bk.hotel.service.CustomerService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = HotelApplication.class)
@@ -43,6 +45,9 @@ public class ITCustomerRepo {
 	public static PostgreSQLContainer postgres = (PostgreSQLContainer) new PostgreSQLContainer();
 	@Autowired
 	private CustomerRepo repo;
+
+	@MockBean
+	private CustomerService customerService;
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
 

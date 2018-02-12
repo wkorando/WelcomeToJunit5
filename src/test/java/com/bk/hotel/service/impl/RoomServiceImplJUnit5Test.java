@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Rule;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
@@ -29,7 +30,8 @@ public class RoomServiceImplJUnit5Test {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
-	@IntegrationTest
+	@Test
+	@Tag("integration")
 	public void testFindByValidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -41,6 +43,7 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
+	@DisabledOnMac
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);

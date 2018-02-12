@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Disabled;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +23,7 @@ import com.bk.hotel.service.CustomerService;
 
 @SpringJUnitWebConfig(HotelApplication.class)
 @WebMvcTest(controllers = CustomerController.class, secure = false)
+@Disabled
 public class TestCustomersController implements GetResourceEndpointTest<Customer, Long>, PutPostEndpointTesting,
 		DeleteResourceEndpointTest<Long>, SearchEndpointTest {
 

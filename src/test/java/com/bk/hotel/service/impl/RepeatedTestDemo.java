@@ -10,11 +10,11 @@ import org.junit.jupiter.api.TestInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class RepeatedTestDemo {
+public class RepeatedTestDemo {
     private Logger logger = LoggerFactory.getLogger(RepeatedTestDemo.class);
 
     @BeforeEach
-    void beforeEach(TestInfo testInfo, RepetitionInfo repetitionInfo) {
+    public void beforeEach(TestInfo testInfo, RepetitionInfo repetitionInfo) {
         int currentRepetition = repetitionInfo.getCurrentRepetition();
         int totalRepetitions = repetitionInfo.getTotalRepetitions();
         String methodName = testInfo.getTestMethod().get().getName();
@@ -23,29 +23,29 @@ class RepeatedTestDemo {
     }
 
     @RepeatedTest(10)
-    void repeatedTest() {
+    public void repeatedTest() {
         // ...
     }
 
     @RepeatedTest(5)
-    void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
+    public void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
         assertEquals(5, repetitionInfo.getTotalRepetitions());
     }
 
     @RepeatedTest(value = 1, name = "{displayName} {currentRepetition}/{totalRepetitions}")
     @DisplayName("Repeat!")
-    void customDisplayName(TestInfo testInfo) {
+    public void customDisplayName(TestInfo testInfo) {
         assertEquals(testInfo.getDisplayName(), "Repeat! 1/1");
     }
 
     @RepeatedTest(value = 1, name = RepeatedTest.LONG_DISPLAY_NAME)
     @DisplayName("Details...")
-    void customDisplayNameWithLongPattern(TestInfo testInfo) {
+    public void customDisplayNameWithLongPattern(TestInfo testInfo) {
         assertEquals(testInfo.getDisplayName(), "Details... :: repetition 1 of 1");
     }
 
     @RepeatedTest(value = 5, name = "Wiederholung {currentRepetition} von {totalRepetitions}")
-    void repeatedTestInGerman() {
+    public void repeatedTestInGerman() {
         // ...
     }
 
