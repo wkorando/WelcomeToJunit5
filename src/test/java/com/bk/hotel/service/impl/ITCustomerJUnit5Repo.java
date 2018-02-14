@@ -1,20 +1,17 @@
 package com.bk.hotel.service.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.SimpleDateFormat;
 
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.util.EnvironmentTestUtils;
+import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import com.bk.hotel.HotelApplication;
@@ -22,34 +19,34 @@ import com.bk.hotel.model.Customer;
 import com.bk.hotel.repo.CustomerRepo;
 import com.bk.hotel.service.CustomerService;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = HotelApplication.class)
-@ContextConfiguration(initializers = ITCustomerRepo.Initializer.class)
-public class ITCustomerRepo {
+@SpringJUnitConfig(classes = HotelApplication.class, initializers = ITCustomerJUnit5Repo.Initializer.class)
+public class ITCustomerJUnit5Repo {
 
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 		@Override
 		public void initialize(ConfigurableApplicationContext applicationContext) {
-			EnvironmentTestUtils.addEnvironment("testcontainers", applicationContext.getEnvironment(),
-
-					"spring.datasource.url=jdbc:tc:postgresql://localhost:" + postgres.getExposedPorts().get(0)
-							+ "/test?TC_INITSCRIPT=init_customerdb.sql",
-					"spring.datasource.username=" + postgres.getUsername(),
-					"spring.datasource.password=" + postgres.getPassword(),
-					"spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver");
+			postgres.start();
+			TestPropertyValues.of(
+					"spring.datasource.url=jdbc:tc:postgresql://localhost:5432/test?TC_INITSCRIPT=init_customerdb.sql",
+					"spring.datasource.username=admin", "spring.datasource.password=admin",
+					"spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver")
+					.applyTo(applicationContext);
 		}
 	}
 
-	@ClassRule
-	@SuppressWarnings("rawtypes")
-	public static PostgreSQLContainer postgres =  new PostgreSQLContainer();
+	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>().withUsername("admin").withPassword("admin");
+
 	@Autowired
 	private CustomerRepo repo;
-
 	@MockBean
 	private CustomerService customerService;
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+	
+	@AfterAll
+	public static void after() {
+		postgres.stop();
+	}
 
 	@Test
 	public void testDatabaseCall() {
