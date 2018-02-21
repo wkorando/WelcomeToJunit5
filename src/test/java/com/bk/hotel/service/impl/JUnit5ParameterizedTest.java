@@ -11,14 +11,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class JUnit5ParameterizedTest {
 
 	@ParameterizedTest(name ="{0}")
-	@MethodSource("scenarios")
 	public void verifyDateValidation(DateValidationBean dateValidation) {
 		ReservationServiceImpl service = new ReservationServiceImpl();
 		List<String> errorMsgs = service.verifyReservationDates(dateValidation.checkInDate, dateValidation.checkOutDate);
 		assertThat(errorMsgs).containsExactlyInAnyOrder(dateValidation.errorMsgs);
 	}
 
-	static Stream<DateValidationBean> scenarios() {
+	static Stream<DateValidationBean> verifyDateValidation() {
 		return Stream.of(new DateValidationBean("Valid booking dates", "03/03/2018", "03/07/2018"),
 				new DateValidationBean("Null check-in date", null, "11/27/2018", "Must provide a check-in date."),
 				new DateValidationBean("Both dates null", null, null, "Must provide a check-in date.",

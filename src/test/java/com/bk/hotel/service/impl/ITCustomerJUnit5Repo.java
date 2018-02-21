@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.SimpleDateFormat;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -25,28 +25,25 @@ public class ITCustomerJUnit5Repo {
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 		@Override
 		public void initialize(ConfigurableApplicationContext applicationContext) {
-			postgres.start();
 			TestPropertyValues.of(
 					"spring.datasource.url=jdbc:tc:postgresql://localhost:5432/test?TC_INITSCRIPT=init_customerdb.sql",
-					"spring.datasource.username=admin", "spring.datasource.password=admin",
+					"spring.datasource.username=admin", //
+					"spring.datasource.password=admin", //
 					"spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver")
 					.applyTo(applicationContext);
 		}
 	}
 
-	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>().withUsername("admin").withPassword("admin");
+	public PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>().withUsername("admin").withPassword("admin");
 
+	@RegisterExtension
+	public TestContainersExtension containersExtension = new TestContainersExtension(postgres);
 	@Autowired
 	private CustomerRepo repo;
 	@MockBean
 	private CustomerService customerService;
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-	
-	@AfterAll
-	public static void after() {
-		postgres.stop();
-	}
 
 	@Test
 	public void testDatabaseCall() {

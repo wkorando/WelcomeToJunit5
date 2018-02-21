@@ -22,6 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<junit-jupiter.version>5.1.0</junit-jupiter.version>
+		<junit-platform.version>1.1.0</junit-platform.version>
 	</properties>
 
 	<dependencies>
@@ -64,37 +66,37 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.1.0-RC1</version>
+			<version>${junit-jupiter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.1.0-RC1</version>
+			<version>${junit-jupiter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-engine</artifactId>
-			<version>1.1.0-RC1</version>
+			<version>${junit-platform.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-launcher</artifactId>
-			<version>1.1.0-RC1</version>
+			<version>${junit-platform.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
-			<version>5.1.0-RC1</version>
+			<version>${junit-jupiter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-migrationsupport</artifactId>
-			<version>5.1.0-RC1</version>
+			<version>${junit-jupiter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.1.0-RC1</version>
+			<version>${junit-jupiter.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -132,12 +134,12 @@
 					<dependency>
 						<groupId>org.junit.platform</groupId>
 						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.1.0-RC1</version>
+						<version>${junit-platform.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.junit.jupiter</groupId>
 						<artifactId>junit-jupiter-engine</artifactId>
-						<version>5.1.0-RC1</version>
+						<version>${junit-jupiter.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>

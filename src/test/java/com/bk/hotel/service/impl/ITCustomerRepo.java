@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.util.EnvironmentTestUtils;
+import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,19 +30,18 @@ public class ITCustomerRepo {
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 		@Override
 		public void initialize(ConfigurableApplicationContext applicationContext) {
-			EnvironmentTestUtils.addEnvironment("testcontainers", applicationContext.getEnvironment(),
-
-					"spring.datasource.url=jdbc:tc:postgresql://localhost:" + postgres.getExposedPorts().get(0)
-							+ "/test?TC_INITSCRIPT=init_customerdb.sql",
-					"spring.datasource.username=" + postgres.getUsername(),
-					"spring.datasource.password=" + postgres.getPassword(),
-					"spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver");
+			TestPropertyValues.of(
+					"spring.datasource.url=jdbc:tc:postgresql://localhost:5432/test?TC_INITSCRIPT=init_customerdb.sql",
+					"spring.datasource.username=admin", //
+					"spring.datasource.password=admin", //
+					"spring.datasource.driver-class-name=org.testcontainers.jdbc.ContainerDatabaseDriver")
+					.applyTo(applicationContext);
 		}
 	}
 
 	@ClassRule
-	@SuppressWarnings("rawtypes")
-	public static PostgreSQLContainer postgres =  new PostgreSQLContainer();
+	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>().withUsername("admin")
+			.withPassword("admin");
 	@Autowired
 	private CustomerRepo repo;
 
