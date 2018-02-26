@@ -3,6 +3,8 @@ package com.bk.hotel.service.impl;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -12,11 +14,18 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.junit.Rule;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.condition.DisabledIf;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 import org.junit.rules.ExpectedException;
 
@@ -31,7 +40,6 @@ public class RoomServiceImplJUnit5Test {
 	public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
-	@Tag("integration")
 	public void testFindByValidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -43,7 +51,7 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisabledOnMac
+	@DisabledIf("new Date().getDay() === 5")
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -54,30 +62,39 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
+	@DisabledOnOs(OS.MAC)
 	public void testFindByNullRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 		verify(repo, times(0)).findRoomsByRoomType(any());
+		RoomServiceException e = assertThrows(RoomServiceException.class, () -> service.findRoomsByType("NOT FOUND"));
+		assertEquals("Room type: NOT FOUND not found!", e.getMessage());
+	}
 
-		RoomServiceException e = assertThrows(RoomServiceException.class, () -> service.findRoomsByType(null));
-		assertEquals("Room type: null not found!", e.getMessage());
+	@IntegrationTest
+	public void testInfo(TestInfo testInfo) {
+		System.out.println(testInfo);
+	}
+
+	@TestFactory
+	Stream<DynamicTest> dynamicTestsFromIntStream() {
+		// Generates tests for the first 10 even integers.
+		return IntStream.iterate(0, n -> n + 2).limit(10)
+				.mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
 	}
 
 	@Test
+	@DisplayName("A really great name! 💩")
 	public void testAddRoom() {
 		RoomRepo repo = mock(RoomRepo.class);
 		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 
 		Room newRoom = service.addRoom(new Room());
-		assertAll(() -> assertEquals(1L, newRoom.getId()), () -> assertEquals("100", newRoom.getRoomNumber()),
-				() -> assertEquals("Single", newRoom.getRoomType()),
-				() -> assertEquals(new BigDecimal(149.99), newRoom.getRoomRate()));
+		assertAll(() -> assertEquals(2L, newRoom.getId()), () -> assertEquals("200", newRoom.getRoomNumber()),
+				() -> assertEquals("Dingle", newRoom.getRoomType()),
+				() -> assertEquals(new BigDecimal(249.99), newRoom.getRoomRate()));
 
 	}
 
-	@Test
-	void testTestInfo(TestInfo testInfo) {
-		System.out.println(testInfo);
-	}
 }

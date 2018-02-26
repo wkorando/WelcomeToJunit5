@@ -5,10 +5,11 @@ import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.testcontainers.containers.GenericContainer;
 
-public class TestContainersExtension
-		implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
+public class TestContainersExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback,
+		AfterEachCallback, TestInstancePostProcessor {
 
 	private GenericContainer<?> container;
 	private boolean classLevelContainer = true;
@@ -48,5 +49,10 @@ public class TestContainersExtension
 		if (!classLevelContainer) {
 			container.start();
 		}
+	}
+
+	@Override
+	public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+		container.start();
 	}
 }

@@ -23,7 +23,6 @@ import com.bk.hotel.service.CustomerService;
 
 @SpringJUnitWebConfig(HotelApplication.class)
 @WebMvcTest(controllers = CustomerController.class, secure = false)
-@Disabled
 public class TestCustomersController implements GetResourceEndpointTest<Customer, Long>, PutPostEndpointTesting,
 		DeleteResourceEndpointTest<Long>, SearchEndpointTest {
 
