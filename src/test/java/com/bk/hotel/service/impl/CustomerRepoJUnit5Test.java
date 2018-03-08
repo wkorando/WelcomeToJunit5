@@ -1,5 +1,8 @@
 package com.bk.hotel.service.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,9 +29,7 @@ public class CustomerRepoJUnit5Test {
 	private Customer todd;
 	private Customer princess;
 
-	public CustomerRepoJUnit5Test(@Autowired
-			 TestEntityManager entityManager,@Autowired
-				 CustomerRepo repo ) {
+	public CustomerRepoJUnit5Test(@Autowired TestEntityManager entityManager, @Autowired CustomerRepo repo) {
 		bojack = new Customer.CustomerBuilder().firstName("BoJack").middleName("Horse").lastName("Horseman")
 				.suffix("Sr.").build();
 		todd = new Customer.CustomerBuilder().firstName("Todd").middleName("Toddifer").lastName("Chavez").suffix("Jr.")
@@ -46,19 +47,12 @@ public class CustomerRepoJUnit5Test {
 	@Test
 	public void testFindAllCustomers(@Autowired CustomerRepo repo) {
 		this.entityManager.persist(bojack);
+		this.entityManager.persist(todd);
+		this.entityManager.persist(princess);
 		Iterable<Customer> customers = repo.findAll();
 
-		int count = 0;
-		for (Customer repoCustomer : customers) {
-			assertEquals("BoJack", repoCustomer.getFirstName());
-			assertEquals("Horseman", repoCustomer.getLastName());
-			assertEquals("Horse", repoCustomer.getMiddleName());
-			assertEquals("Sr.", repoCustomer.getSuffix());
-			assertTrue(repoCustomer.getId() > 0L);
-			assertNull(repoCustomer.getDateOfLastStay());
-			count++;
-		}
-		assertEquals(1, count);
+		assertThat(customers).extracting("firstName", "lastName").contains(tuple("BoJack", "Horseman"),
+				tuple("Princess", "Carolyn"), tuple("Todd", "Chavez"));
 	}
 
 	@Test
@@ -70,17 +64,17 @@ public class CustomerRepoJUnit5Test {
 
 		int count = 0;
 		for (Customer repoCustomer : customers) {
-			assertEquals("Princess", repoCustomer.getFirstName());
-			assertEquals("Caroline", repoCustomer.getLastName());
-			assertEquals("Cat", repoCustomer.getMiddleName());
-			assertTrue(repoCustomer.getId() > 0L);
-			assertNull(repoCustomer.getDateOfLastStay());
-			assertNull(repoCustomer.getSuffix());
+
+			assertAll(() -> assertEquals("Princess", repoCustomer.getFirstName()),
+					() -> assertEquals("Caroline", repoCustomer.getLastName()),
+					() -> assertEquals("Cat", repoCustomer.getMiddleName()),
+					() -> assertTrue(repoCustomer.getId() > 0L), 
+					() -> assertNull(repoCustomer.getDateOfLastStay()),
+					() -> assertNull(repoCustomer.getSuffix())
+					);
 			count++;
 		}
 		assertEquals(1, count);
 	}
-	
-	
 
 }
