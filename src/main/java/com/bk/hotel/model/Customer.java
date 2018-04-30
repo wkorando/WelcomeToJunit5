@@ -1,7 +1,5 @@
 package com.bk.hotel.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,19 +22,16 @@ public class Customer {
 	private String middleName;
 	@Column(name = "suffix")
 	private String suffix;
-	@Column(name = "date_of_last_stay")
-	private Date dateOfLastStay;
 
 	public Customer() {
 	}
 
-	public Customer(long id, String firstName, String lastName, String middleName, String suffix, Date dateOfLastStay) {
+	public Customer(long id, String firstName, String lastName, String middleName, String suffix) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.middleName = middleName;
 		this.suffix = suffix;
-		this.dateOfLastStay = dateOfLastStay;
 	}
 
 	public long getId() {
@@ -79,19 +74,11 @@ public class Customer {
 		this.suffix = suffix;
 	}
 
-	public Date getDateOfLastStay() {
-		return dateOfLastStay;
-	}
-
-	public void setDateOfLastStay(Date dateOfLastStay) {
-		this.dateOfLastStay = dateOfLastStay;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dateOfLastStay == null) ? 0 : dateOfLastStay.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
@@ -109,11 +96,6 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (dateOfLastStay == null) {
-			if (other.dateOfLastStay != null)
-				return false;
-		} else if (!dateOfLastStay.equals(other.dateOfLastStay))
-			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
@@ -145,7 +127,6 @@ public class Customer {
 		private String lastName;
 		private String middleName;
 		private String suffix;
-		private Date dateOfLastStay;
 
 		public CustomerBuilder id(long id) {
 			this.id = id;
@@ -172,20 +153,16 @@ public class Customer {
 			return this;
 		}
 
-		public CustomerBuilder dateOfLastStay(Date dateOfLastStay) {
-			this.dateOfLastStay = dateOfLastStay;
-			return this;
-		}
 
 		public Customer build() {
-			return new Customer(id, firstName, lastName, middleName, suffix, dateOfLastStay);
+			return new Customer(id, firstName, lastName, middleName, suffix);
 		}
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName="
-				+ middleName + ", suffix=" + suffix + ", dateOfLastStay=" + dateOfLastStay + "]";
+				+ middleName + ", suffix=" + suffix + "]";
 	}
 
 }

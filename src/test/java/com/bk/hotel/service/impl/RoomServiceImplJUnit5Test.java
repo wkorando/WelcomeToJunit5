@@ -62,18 +62,12 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisabledOnOs(OS.MAC)
 	public void testFindByNullRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 		verify(repo, times(0)).findRoomsByRoomType(any());
 		RoomServiceException e = assertThrows(RoomServiceException.class, () -> service.findRoomsByType("NOT FOUND"));
 		assertEquals("Room type: NOT FOUND not found!", e.getMessage());
-	}
-
-	@IntegrationTest
-	public void testInfo(TestInfo testInfo) {
-		System.out.println(testInfo);
 	}
 
 	@TestFactory
@@ -84,16 +78,16 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisplayName("A really great name! 💩")
 	public void testAddRoom() {
 		RoomRepo repo = mock(RoomRepo.class);
 		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 
 		Room newRoom = service.addRoom(new Room());
-		assertAll(() -> assertEquals(2L, newRoom.getId()), () -> assertEquals("200", newRoom.getRoomNumber()),
-				() -> assertEquals("Dingle", newRoom.getRoomType()),
-				() -> assertEquals(new BigDecimal(249.99), newRoom.getRoomRate()));
+		assertAll(() -> assertEquals(1L, newRoom.getId()), //
+				() -> assertEquals("100", newRoom.getRoomNumber()), //
+				() -> assertEquals("Single", newRoom.getRoomType()), //
+				() -> assertEquals(new BigDecimal(149.99), newRoom.getRoomRate()));
 
 	}
 

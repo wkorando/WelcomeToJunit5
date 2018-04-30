@@ -1,5 +1,6 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
+.gradle/
 
 ### STS ###
 .apt_generated
@@ -8,6 +9,7 @@ target/
 .project
 .settings
 .springBeans
+.DS_Store
 
 ### IntelliJ IDEA ###
 .idea

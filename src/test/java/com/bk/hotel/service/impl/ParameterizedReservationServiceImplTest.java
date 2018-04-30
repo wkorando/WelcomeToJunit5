@@ -16,11 +16,11 @@ public class ParameterizedReservationServiceImplTest {
 
 	@Parameters
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { { "03/03/2018", "03/07/2018", new String[] {} },
-				{ "", "11/27/2018", new String[] { "Must provide a check-in date." } },
+		return Arrays.asList(new Object[][] { { "03/03/2020", "03/07/2020", new String[] {} },
+				{ "", "11/27/2020", new String[] { "Must provide a check-in date." } },
 				{ "", "", new String[] { "Must provide a check-in date.", "Must provide a check-out date." } },
-				{ "02/30/2018", "03/07/2018", new String[] {
-						"check-in date of: 02/30/2018 is not a valid date or does not match date format of: MM/DD/YYYY" } } });
+				{ "02/30/2020", "03/07/2020", new String[] {
+						"check-in date of: 02/30/2020 is not a valid date or does not match date format of: MM/DD/YYYY" } } });
 	}
 
 	private String startDate;

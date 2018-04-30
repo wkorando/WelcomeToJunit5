@@ -2,6 +2,7 @@ package com.bk.hotel.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -77,12 +78,14 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteCustomer(@PathVariable("id") long id) {
-		Customer customer = service.findCustomerById(id);
-		if (customer != null) {
-			return ResponseEntity.ok(customer);
+	public ResponseEntity<?> deleteCustomer(@PathVariable("id") long id) {
+		boolean customerDelete = service.deleteResource(id);
+		if (customerDelete) {
+			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.notFound().build();
+			List<String> errorMessages = new ArrayList<>();
+			errorMessages.add("Resource does not exist or has already been deleted.");
+			return ResponseEntity.badRequest().body(new ErrorResponse(errorMessages));
 		}
 	}
 

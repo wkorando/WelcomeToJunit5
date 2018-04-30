@@ -1,14 +1,11 @@
 package com.bk.hotel.controller;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -49,12 +46,12 @@ public class TestCustomersController implements GetResourceEndpointTest<Customer
 
 	@Override
 	public Customer foundResource() {
-		return new Customer(1L, "Joe", "Blow", "Kokomo", "Jr.", new Date(0L));
+		return new Customer(0L, "Joe", "Blow", "Kokomo", "Jr.");
 	}
 
 	@Override
 	public String getFoundResourceJsonContent() {
-		return "{\"firstName\": \"Joe\", \"lastName\" : \"Blow\", \"middleName\" : \"Kokomo\", \"suffix\" : \"Jr.\",\"dateOfLastStay\" : \"1970-01-01T00:00:00.000+0000\" }";
+		return "{\"firstName\": \"Joe\", \"lastName\" : \"Blow\", \"middleName\" : \"Kokomo\", \"suffix\" : \"Jr.\" }";
 	}
 
 	@Override
@@ -89,7 +86,7 @@ public class TestCustomersController implements GetResourceEndpointTest<Customer
 
 	@Override
 	public String newResourceWithErrorsAsJson() {
-		return "{\"firstName\": \"\", \"lastName\" : \"\", \"middleName\" : \"Kokomo\", \"suffix\" : \"Jr.\",\"dateOfLastStay\" : \"1970-01-01T00:00:00.000+0000\" }";
+		return "{\"firstName\": \"\", \"lastName\" : \"\", \"middleName\" : \"Kokomo\", \"suffix\" : \"Jr.\" }";
 	}
 
 	@Override
@@ -103,12 +100,12 @@ public class TestCustomersController implements GetResourceEndpointTest<Customer
 		e.addErrorMessage("Must provide a first name.");
 		e.addErrorMessage("Must provide a last name.");
 
-		when(service.saveCustomer(foundResource())).thenThrow(e);
+		when(service.saveCustomer(new Customer(0L, "", "", "Kokomo", "Jr."))).thenThrow(e);
 	}
 
 	@Override
 	public String newResourceId() {
-		return "1";
+		return "0";
 	}
 
 	@Override
@@ -143,13 +140,12 @@ public class TestCustomersController implements GetResourceEndpointTest<Customer
 
 	@Override
 	public Stream<SuccessfulSearchScenario> successfulSearchScenarios() {
-		return Stream.of(new SuccessfulSearchScenario("/byFNameLName?fName=John&lName=Doe", "{}") {
+		return Stream.of(new SuccessfulSearchScenario("/byFNameLName?fName=John&lName=Doe", "[{\"firstName\" : \"John\", \"lastName\" : \"Doe\", \"middleName\" : \"M\", \"suffix\" : \"S\"}]") {
 
 			@Override
 			public void mockedBehavior() {
-				CustomerService service = mock(CustomerService.class);
 				when(service.findByCustomerFirstNameLastName("John", "Doe"))
-						.thenReturn(Arrays.asList(new Customer(1L, "John", "Doe", "M", "S", new Date(0L))));
+						.thenReturn(Arrays.asList(new Customer(1L, "John", "Doe", "M", "S")));
 			}
 		});
 	}

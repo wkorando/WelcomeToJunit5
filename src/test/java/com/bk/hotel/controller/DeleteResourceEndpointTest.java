@@ -1,6 +1,6 @@
 package com.bk.hotel.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,14 +27,14 @@ public interface DeleteResourceEndpointTest<I> extends EndpointTest {
 	@Test
 	default void testDeleteExistingResource() throws Exception {
 		mockDeleteExistingResourceBehavior();
-		getMockMvc().perform(get(baseEndpoint() + "/" + getExistingResource())).andExpect(status().isNoContent());
+		getMockMvc().perform(delete(baseEndpoint() + "/" + getExistingResource())).andExpect(status().isNoContent());
 	}
 
 	@Test
 	default void testDeleteNonExistingResource() throws Exception {
 		mockDeleteNonExistingResourceBehavior();
-		getMockMvc().perform(get(baseEndpoint() + "/" + getNonExistingResoruce())).andExpect(status().isBadRequest())
+		getMockMvc().perform(delete(baseEndpoint() + "/" + getNonExistingResoruce())).andExpect(status().isBadRequest())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(content().json("{ \"errorMessages\" : " + failedDeleteResourceErrorMessages() + "}"));
+				.andExpect(content().json("{ \"errorMessages\" : [" + failedDeleteResourceErrorMessages() + "]}"));
 	}
 }
