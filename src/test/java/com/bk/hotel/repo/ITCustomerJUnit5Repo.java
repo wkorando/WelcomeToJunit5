@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,7 +20,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import com.bk.hotel.HotelApplication;
 import com.bk.hotel.model.Customer;
 import com.bk.hotel.service.CustomerService;
-import com.bk.hotel.service.impl.IntegrationTest;
 import com.bk.hotel.service.impl.SpringTestContainersExtension;
 
 @ContextConfiguration(classes = { HotelApplication.class }, initializers = ITCustomerJUnit5Repo.Initializer.class)
@@ -46,7 +47,7 @@ public class ITCustomerJUnit5Repo {
 	@MockBean
 	private CustomerService customerService;
 
-	@IntegrationTest
+	@Test
 	public void testRetrieveCustomerFromDatabase() {
 
 		Customer customer = repo.findById(1L).get();
@@ -57,7 +58,8 @@ public class ITCustomerJUnit5Repo {
 		assertEquals("", customer.getSuffix());
 	}
 
-	@IntegrationTest
+	@Test
+	@Disabled
 	public void testAddCustomerToDB() throws ParseException {
 
 		Customer customer = new Customer.CustomerBuilder().firstName("BoJack").middleName("Horse").lastName("Horseman")
@@ -68,7 +70,7 @@ public class ITCustomerJUnit5Repo {
 		assertEquals(3, repo.count());
 	}
 
-	@IntegrationTest
+	@Test
 	public void testCountNumberOfCustomersInDB() {
 
 		assertEquals(2, repo.count());

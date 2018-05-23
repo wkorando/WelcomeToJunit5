@@ -1,4 +1,4 @@
-package com.bk.hotel.service.impl;
+package com.bk.hotel.junit4;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+
+import com.bk.hotel.service.impl.ReservationServiceImpl;
 
 @RunWith(Parameterized.class)
 public class ParameterizedReservationServiceImplTest {

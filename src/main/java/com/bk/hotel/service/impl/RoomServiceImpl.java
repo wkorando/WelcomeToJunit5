@@ -38,7 +38,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	
-	protected Room addRoom(Room room) {
+	public Room addRoom(Room room) {
 		List<String> errorMessages = new ArrayList<>();
 		if(roomRepo.findByRoomNumber(room.getRoomNumber()) != null) {
 			errorMessages.add("Duplicated room number!");

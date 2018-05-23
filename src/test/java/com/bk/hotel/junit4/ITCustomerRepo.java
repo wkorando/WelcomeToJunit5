@@ -1,10 +1,10 @@
-package com.bk.hotel.repo;
+package com.bk.hotel.junit4;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +59,7 @@ public class ITCustomerRepo {
 	}
 
 	@Test
+	@Ignore
 	public void testAddCustomerToDB() throws ParseException {
 
 		Customer customer = new Customer(10L, "Princess", "Carolyn", "Cat", "");

@@ -1,4 +1,4 @@
-package com.bk.hotel.service.impl;
+package com.bk.hotel.junit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +18,7 @@ import org.junit.rules.ExpectedException;
 import com.bk.hotel.RoomServiceException;
 import com.bk.hotel.model.Room;
 import com.bk.hotel.repo.RoomRepo;
+import com.bk.hotel.service.impl.RoomServiceImpl;
 
 public class RoomServiceImplTest {
 	private List<String> roomTypes = Arrays.asList("Single", "Double", "Suite");

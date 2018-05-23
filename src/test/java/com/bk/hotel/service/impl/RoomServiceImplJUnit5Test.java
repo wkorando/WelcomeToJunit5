@@ -51,7 +51,7 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisabledIf("new Date().getDay() === 5")
+	@DisabledIf("new Date().getDay() === 4")
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -70,12 +70,12 @@ public class RoomServiceImplJUnit5Test {
 		assertEquals("Room type: NOT FOUND not found!", e.getMessage());
 	}
 
-	@TestFactory
-	Stream<DynamicTest> dynamicTestsFromIntStream() {
-		// Generates tests for the first 10 even integers.
-		return IntStream.iterate(0, n -> n + 2).limit(10)
-				.mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
-	}
+	// @TestFactory
+	// Stream<DynamicTest> dynamicTestsFromIntStream() {
+	// // Generates tests for the first 10 even integers.
+	// return IntStream.iterate(0, n -> n + 2).limit(10)
+	// .mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
+	// }
 
 	@Test
 	public void testAddRoom() {
@@ -84,10 +84,10 @@ public class RoomServiceImplJUnit5Test {
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 
 		Room newRoom = service.addRoom(new Room());
-		assertAll(() -> assertEquals(1L, newRoom.getId()), //
-				() -> assertEquals("100", newRoom.getRoomNumber()), //
-				() -> assertEquals("Single", newRoom.getRoomType()), //
-				() -> assertEquals(new BigDecimal(149.99), newRoom.getRoomRate()));
+		assertEquals(1L, newRoom.getId());
+		assertEquals("100", newRoom.getRoomNumber());
+		assertEquals("Single", newRoom.getRoomType());
+		assertEquals(new BigDecimal(149.99), newRoom.getRoomRate());
 
 	}
 

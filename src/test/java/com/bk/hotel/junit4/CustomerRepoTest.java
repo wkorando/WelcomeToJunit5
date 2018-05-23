@@ -1,4 +1,4 @@
-package com.bk.hotel.repo;
+package com.bk.hotel.junit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -11,13 +11,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.bk.hotel.HotelApplication;
 import com.bk.hotel.model.Customer;
+import com.bk.hotel.repo.CustomerRepo;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Ignore
+@SpringBootTest(classes = HotelApplication.class)
 public class CustomerRepoTest {
 	@Autowired
 	private TestEntityManager entityManager;
