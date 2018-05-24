@@ -34,7 +34,7 @@ import com.bk.hotel.model.Room;
 import com.bk.hotel.repo.RoomRepo;
 
 @EnableRuleMigrationSupport
-public class RoomServiceImplJUnit5Test {
+public class CheatRoomServiceImplJUnit5Test {
 	private List<String> roomTypes = Arrays.asList("Single", "Double", "Suite");
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
@@ -51,7 +51,7 @@ public class RoomServiceImplJUnit5Test {
 	}
 
 	@Test
-	@DisabledIf("new Date().getDay() === 4")
+	@DisabledIf("new Date().getDay() === 3")
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -84,6 +84,7 @@ public class RoomServiceImplJUnit5Test {
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 
 		Room newRoom = service.addRoom(new Room());
+		
 		assertEquals(1L, newRoom.getId());
 		assertEquals("100", newRoom.getRoomNumber());
 		assertEquals("Single", newRoom.getRoomType());

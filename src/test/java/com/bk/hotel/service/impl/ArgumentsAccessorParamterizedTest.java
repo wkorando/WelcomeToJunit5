@@ -10,7 +10,7 @@ import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
-public class ArgumentsAccesorParamterizedTest {
+public class ArgumentsAccessorParamterizedTest {
 
 	@ParameterizedTest
 	@CsvSource({ "Valid booking dates, 03/03/2020, 03/07/2020",
