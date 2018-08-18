@@ -82,12 +82,12 @@ public class TestAcceptedMediaTypes {
 				if (method.isAnnotationPresent(PostMapping.class)) {
 					List<DynamicTest> dynamicTests = new ArrayList<>();
 					for (MediaType mediaType : SUPPORTED_MEDIA_TYPES) {
-						containers.add(dynamicTest(builder.toString() + " " + mediaType.toString(),
+						dynamicTests.add(dynamicTest(mediaType.toString(),
 								() -> mockMvc.perform(post(builder.toString()).contentType(mediaType))
 										.andExpect(status().is(IsNot.not(415)))));
 					}
 					//Group the test into containers so the test report will be separated by controller
-//					containers.add(dynamicContainer(builder.toString(), dynamicTests));
+					containers.add(dynamicContainer(builder.toString(), dynamicTests));
 				}
 			}
 		}
