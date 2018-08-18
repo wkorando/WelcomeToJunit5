@@ -1,0 +1,3 @@
+Valid booking dates, 03/03/2020, 03/07/2020
+Null check-in date, , 11/27/2020, Must provide a check-in date.
+Invalid check-in date, 02/30/2020, 03/07/2020, check-in date of: 02/30/2020 is not a valid date or does not match date format of: MM/DD/YYYY 

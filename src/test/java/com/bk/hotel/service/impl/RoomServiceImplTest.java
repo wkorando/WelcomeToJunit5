@@ -1,5 +1,6 @@
 package com.bk.hotel.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,22 +14,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Rule;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIf;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 import org.junit.rules.ExpectedException;
 
 import com.bk.hotel.RoomServiceException;
 import com.bk.hotel.model.Room;
 import com.bk.hotel.repo.RoomRepo;
-import com.bk.hotel.test.utils.DisabledOnNixSystems;
-import com.bk.hotel.test.utils.IntegrationTest;
+import com.bk.hotel.service.impl.RoomServiceImpl;
 
 @EnableRuleMigrationSupport
-public class CheatRoomServiceImplJUnit5Test {
+public class RoomServiceImplTest {
 	private List<String> roomTypes = Arrays.asList("Single", "Double", "Suite");
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
@@ -45,9 +42,6 @@ public class CheatRoomServiceImplJUnit5Test {
 	}
 
 	@Test
-@DisabledOnNixSystems
-//	@Tag("integration")
-//	@IntegrationTest
 	public void testFindByInvalidRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
@@ -58,20 +52,14 @@ public class CheatRoomServiceImplJUnit5Test {
 	}
 
 	@Test
+	@DisplayName("A really cool name!")
 	public void testFindByNullRoomType() {
 		RoomRepo repo = mock(RoomRepo.class);
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 		verify(repo, times(0)).findRoomsByRoomType(any());
-		RoomServiceException e = assertThrows(RoomServiceException.class, () -> service.findRoomsByType("NOT FOUND"));
-		assertEquals("Room type: NOT FOUND not found!", e.getMessage());
+		RoomServiceException e = assertThrows(RoomServiceException.class, () -> service.findRoomsByType(null));
+		assertEquals("Room type: null not found!", e.getMessage());
 	}
-
-//	 @TestFactory
-//	 Stream<DynamicTest> dynamicTestsFromIntStream() {
-//	 // Generates tests for the first 10 even integers.
-//	 return IntStream.iterate(0, n -> n + 2).limit(10)
-//	 .mapToObj(n -> dynamicTest("test" + n, () -> assertTrue(n % 2 == 0)));
-//	 }
 
 	@Test
 	public void testAddRoom() {
@@ -79,13 +67,11 @@ public class CheatRoomServiceImplJUnit5Test {
 		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
 		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
 
-		Room newRoom = service.addRoom(new Room());
-		
-		assertEquals(1L, newRoom.getId());
-		assertEquals("100", newRoom.getRoomNumber());
-		assertEquals("Single", newRoom.getRoomType());
-		assertEquals(new BigDecimal(149.99), newRoom.getRoomRate());
-
+		Room newRoom = service.addRoom(new Room()); 
+		assertAll(() -> assertEquals(1L, newRoom.getId()), //
+				() -> assertEquals("100", newRoom.getRoomNumber()), //
+				() -> assertEquals("Single", newRoom.getRoomType()), //
+				() -> assertEquals(new BigDecimal(149.99), newRoom.getRoomRate())); //
 	}
 
 }

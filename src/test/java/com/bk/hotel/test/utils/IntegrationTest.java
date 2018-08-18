@@ -1,4 +1,4 @@
-package com.bk.hotel.service.impl;
+package com.bk.hotel.test.utils;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;

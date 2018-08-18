@@ -1,4 +1,4 @@
-package com.bk.hotel.service.impl;
+package com.bk.hotel.test.utils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

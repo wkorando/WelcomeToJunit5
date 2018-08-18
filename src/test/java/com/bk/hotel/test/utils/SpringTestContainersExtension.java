@@ -1,4 +1,4 @@
-package com.bk.hotel.service.impl;
+package com.bk.hotel.test.utils;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

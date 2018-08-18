@@ -1,18 +1,24 @@
 package com.bk.hotel.repo;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.bk.hotel.model.Customer;
+import com.bk.hotel.test.utils.SpringTestContainersExtension;
 
 @SpringJUnitConfig
 @DataJpaTest
@@ -43,27 +49,21 @@ public class CustomerRepoJUnit5Test {
 	@Test
 	public void testFindAllCustomers(@Autowired CustomerRepo repo) {
 		this.entityManager.persist(bojack);
+		this.entityManager.persist(todd);
+		this.entityManager.persist(princess);
 		Iterable<Customer> customers = repo.findAll();
 
-		int count = 0;
-		for (Customer repoCustomer : customers) {
-			assertEquals("BoJack", repoCustomer.getFirstName());
-			assertEquals("Horseman", repoCustomer.getLastName());
-			assertEquals("Horse", repoCustomer.getMiddleName());
-			assertEquals("Sr.", repoCustomer.getSuffix());
-			assertTrue(repoCustomer.getId() > 0L);
-			count++;
-		}
-		assertEquals(1, count);
+		assertThat(customers).extracting("firstName", "lastName").contains(tuple("BoJack", "Horseman"),
+				tuple("Princess", "Caroline"), tuple("Todd", "Chave"));
 	}
 
 	@Test
-	public void testFindCustomersByFNameAndLName() {
+	public void testFindCustomersByFNameAndLName(TestInfo testInfo) {
 		this.entityManager.persist(bojack);
 		this.entityManager.persist(todd);
 		this.entityManager.persist(princess);
 		Iterable<Customer> customers = repo.findCustomersByFirstNameAndLastName("Princess", "Caroline");
-
+		System.out.println(testInfo.getDisplayName());
 		int count = 0;
 		for (Customer repoCustomer : customers) {
 			assertEquals("Princess", repoCustomer.getFirstName());
@@ -74,6 +74,7 @@ public class CustomerRepoJUnit5Test {
 			count++;
 		}
 		assertEquals(1, count);
+
 	}
 
 }

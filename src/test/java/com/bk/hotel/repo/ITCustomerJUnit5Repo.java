@@ -20,7 +20,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import com.bk.hotel.HotelApplication;
 import com.bk.hotel.model.Customer;
 import com.bk.hotel.service.CustomerService;
-import com.bk.hotel.service.impl.SpringTestContainersExtension;
+import com.bk.hotel.test.utils.SpringTestContainersExtension;
 
 @ContextConfiguration(classes = { HotelApplication.class }, initializers = ITCustomerJUnit5Repo.Initializer.class)
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
