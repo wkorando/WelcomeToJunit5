@@ -1,4 +1,4 @@
-# Welcome To JUnit5
+# Welcome To JUnit 5
 
 Sample application demonstrating new functionality available in JUnit 5.
 
