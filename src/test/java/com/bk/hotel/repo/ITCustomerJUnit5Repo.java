@@ -72,7 +72,7 @@ public class ITCustomerJUnit5Repo {
 
 	@Test
 	public void testCountNumberOfCustomersInDB() {
-
+		repo.findAll().forEach(c -> System.out.println(c.toString()));
 		assertEquals(2, repo.count());
 	}
 }

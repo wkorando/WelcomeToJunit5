@@ -54,7 +54,7 @@ public class CustomerRepoJUnit5Test {
 		Iterable<Customer> customers = repo.findAll();
 
 		assertThat(customers).extracting("firstName", "lastName").contains(tuple("BoJack", "Horseman"),
-				tuple("Princess", "Caroline"), tuple("Todd", "Chave"));
+				tuple("Princess", "Caroline"), tuple("Todd", "Chavez"));
 	}
 
 	@Test

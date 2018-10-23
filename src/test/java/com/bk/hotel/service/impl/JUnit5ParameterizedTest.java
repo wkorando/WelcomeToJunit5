@@ -27,4 +27,9 @@ public class JUnit5ParameterizedTest {
 				new DateValidationBean("Invalid check-in date", "02/30/2020", "03/07/2020",
 						"check-in date of: 02/30/2020 is not a valid date or does not match date format of: MM/DD/YYYY"));
 	}
+	
+	@Test
+	public void justATest() {
+		
+	}
 }
