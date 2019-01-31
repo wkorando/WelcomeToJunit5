@@ -2,7 +2,7 @@
 
 Sample application demonstrating new functionality available in JUnit 5. 
 
-Presentation Slides: goo.gl/C7DxLa
+Presentation Slides: https://goo.gl/C7DxLa
 
 
 For addtional information check out these blog articles:
