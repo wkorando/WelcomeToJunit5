@@ -13,11 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Rule;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIf;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 import org.junit.rules.ExpectedException;
 
@@ -25,7 +22,6 @@ import com.bk.hotel.RoomServiceException;
 import com.bk.hotel.model.Room;
 import com.bk.hotel.repo.RoomRepo;
 import com.bk.hotel.test.utils.DisabledOnNixSystems;
-import com.bk.hotel.test.utils.IntegrationTest;
 
 @EnableRuleMigrationSupport
 public class CheatRoomServiceImplJUnit5Test {
@@ -74,18 +70,18 @@ public class CheatRoomServiceImplJUnit5Test {
 //	 }
 
 	@Test
-	public void testAddRoom() {
-		RoomRepo repo = mock(RoomRepo.class);
-		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
-		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
-
-		Room newRoom = service.addRoom(new Room());
-		
-		assertEquals(1L, newRoom.getId());
-		assertEquals("100", newRoom.getRoomNumber());
-		assertEquals("Single", newRoom.getRoomType());
-		assertEquals(new BigDecimal(149.99), newRoom.getRoomRate());
-
+	public void testAddRoom(TestInfo testInfo) {
+//		RoomRepo repo = mock(RoomRepo.class);
+//		when(repo.save(any())).thenReturn(new Room(1L, "100", "Single", new BigDecimal(149.99)));
+//		RoomServiceImpl service = new RoomServiceImpl(repo, roomTypes);
+//
+//		Room newRoom = service.addRoom(new Room());
+//		
+//		assertEquals(1L, newRoom.getId());
+//		assertEquals("100", newRoom.getRoomNumber());
+//		assertEquals("Single", newRoom.getRoomType());
+//		assertEquals(new BigDecimal(149.99), newRoom.getRoomRate());
+		System.out.println(testInfo);
 	}
 
 }

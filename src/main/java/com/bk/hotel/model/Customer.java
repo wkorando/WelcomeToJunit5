@@ -7,12 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "customers")
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(name = "first_name")
 	private String firstName;
@@ -73,7 +74,6 @@ public class Customer {
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -152,7 +152,6 @@ public class Customer {
 			this.suffix = suffix;
 			return this;
 		}
-
 
 		public Customer build() {
 			return new Customer(id, firstName, lastName, middleName, suffix);

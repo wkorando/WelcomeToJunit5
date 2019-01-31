@@ -17,14 +17,14 @@ import org.springframework.web.client.RestTemplate;
 
 public class JUnit5ParameterizedTestImprovements {
 
-	@ParameterizedTest
-	@ValueSource(strings = { "https://google.com", "https://junit.org/" })
-	public void callSomeUrls(URI uri) throws IOException {
-		RestTemplate restTemplate = new RestTemplate();
-
-		assertEquals(HttpStatus.OK,
-				restTemplate.getRequestFactory().createRequest(uri, HttpMethod.GET).execute().getStatusCode());
-	}
+//	@ParameterizedTest
+//	@ValueSource(strings = { "https://google.com", "https://junit.org/" })
+//	public void callSomeUrls(URI uri) throws IOException {
+//		RestTemplate restTemplate = new RestTemplate();
+//
+//		assertEquals(HttpStatus.OK,
+//				restTemplate.getRequestFactory().createRequest(uri, HttpMethod.GET).execute().getStatusCode());
+//	}
 
 	@ParameterizedTest
 	@ValueSource(strings = { "src/main/resources/testFile1.txt", "src/main/resources/testFile2.txt" })

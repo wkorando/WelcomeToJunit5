@@ -1,5 +1,5 @@
 CREATE TABLE customers (
-id bigint, 
+id integer, 
 first_name varchar(20),
 last_name varchar(20),
 middle_name varchar(20),

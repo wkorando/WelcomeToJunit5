@@ -20,7 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import com.bk.hotel.model.Customer;
 import com.bk.hotel.test.utils.SpringTestContainersExtension;
 
-@SpringJUnitConfig
 @DataJpaTest
 @DirtiesContext
 public class CustomerRepoJUnit5Test {

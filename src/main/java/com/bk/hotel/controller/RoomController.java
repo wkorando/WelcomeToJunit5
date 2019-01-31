@@ -37,7 +37,7 @@ public class RoomController {
 		}
 	}
 	
-//	@PostMapping(consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@PostMapping(consumes= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<?> addNewRoom(@RequestBody Room room){
 		return null;
 	}

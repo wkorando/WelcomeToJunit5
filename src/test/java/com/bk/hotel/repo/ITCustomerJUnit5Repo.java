@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,6 +26,7 @@ import com.bk.hotel.test.utils.SpringTestContainersExtension;
 
 @ContextConfiguration(classes = { HotelApplication.class }, initializers = ITCustomerJUnit5Repo.Initializer.class)
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@TestMethodOrder(OrderAnnotation.class)
 public class ITCustomerJUnit5Repo {
 
 	public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -59,20 +62,19 @@ public class ITCustomerJUnit5Repo {
 	}
 
 	@Test
-	@Disabled
-	public void testAddCustomerToDB() throws ParseException {
+	@Order(1)
+	public void testCountNumberOfCustomersInDB() {
+		assertEquals(2, repo.count());
+	}
+	
 
+	@Test
+	public void testAddCustomerToDB() throws ParseException {
 		Customer customer = new Customer.CustomerBuilder().firstName("BoJack").middleName("Horse").lastName("Horseman")
 				.suffix("Sr.").build();
 
 		repo.save(customer);
 
 		assertEquals(3, repo.count());
-	}
-
-	@Test
-	public void testCountNumberOfCustomersInDB() {
-		repo.findAll().forEach(c -> System.out.println(c.toString()));
-		assertEquals(2, repo.count());
 	}
 }

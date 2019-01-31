@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class JUnit5ParameterizedTest {
 
-	@ParameterizedTest(name ="{0}")
+	@ParameterizedTest
 	@MethodSource("com.bk.hotel.service.impl.ParameterizedTestData#data")
 	public void verifyDateValidation(DateValidationBean dateValidation) {
 		ReservationServiceImpl service = new ReservationServiceImpl();
